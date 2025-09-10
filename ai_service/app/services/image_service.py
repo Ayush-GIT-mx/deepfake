@@ -6,11 +6,35 @@ IMAGE_DIR = "images"
 os.makedirs(IMAGE_DIR, exist_ok=True)
 
 
-def save_image(image_bytes: bytes, page: int, image_id: str, ext: str = "png") -> str:
+def _get_next_image_number(base_name: str, ext: str) -> int:
     """
-    Save image bytes to disk and return the saved path.
+    Find the next available image number for a given base filename.
+    Example: mydoc_image_1.png → next is 2
     """
-    img_name = f"page_{page}_img_{image_id}.{ext}"
+    existing = [
+        f for f in os.listdir(IMAGE_DIR)
+        if f.lower().startswith(f"{base_name.lower()}_image_")
+        and f.lower().endswith(f".{ext.lower()}")
+    ]
+    numbers = []
+    for f in existing:
+        try:
+            num = int(f.split("_")[-1].split(".")[0])  # last part before extension
+            numbers.append(num)
+        except ValueError:
+            continue
+    return max(numbers, default=0) + 1
+
+
+def save_image(image_bytes: bytes, filename: str, ext: str = "png") -> str:
+    """
+    Save image bytes to disk as {filename}_image_{i}.{ext}.
+    """
+    base_name, _ = os.path.splitext(filename)
+    base_name = os.path.basename(base_name)  # ensure no directory paths
+
+    img_num = _get_next_image_number(base_name, ext)
+    img_name = f"{base_name}_image_{img_num}.{ext}"
     img_path = os.path.join(IMAGE_DIR, img_name)
 
     # Save the image
@@ -23,13 +47,12 @@ def save_image(image_bytes: bytes, page: int, image_id: str, ext: str = "png") -
     return img_path
 
 
-def make_image_record(image_bytes: bytes, page: int, image_id: str, ext: str = "png") -> dict:
+def make_image_record(image_bytes: bytes, filename: str, ext: str = "png") -> dict:
     """
     Create a consistent image record for JSON output.
     """
-    img_path = save_image(image_bytes, page, image_id, ext)
+    img_path = save_image(image_bytes, filename, ext)
     return {
-        "id": image_id,
-        "page": page,
+        "id": os.path.splitext(os.path.basename(img_path))[0],  # e.g., mydoc_image_1
         "path": img_path
     }
