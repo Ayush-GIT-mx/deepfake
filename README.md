@@ -1,4 +1,4 @@
-# ***Welcome to DeepFake's Documentation And Installation Guide .***
+# **Welcome to DeepFake's Documentation And Installation Guide .**
 
 ### **Deepfake is an Advance AI Generated text and Image detection Project To detect the AI Generated / plagiarism contents in a pdf or Docx document**
 
@@ -11,7 +11,9 @@
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Windows_logo_and_wordmark_-_2021.svg" hight="200" width="200">
 
 
-### 1 . Clone The Repository
+
+## 1 . Clone The Repository
+
 ### Open  Git Bash (Recommended) / Terminal / Powershell / CMD and Paste this Link
  ``` git
 git clone <Link>
