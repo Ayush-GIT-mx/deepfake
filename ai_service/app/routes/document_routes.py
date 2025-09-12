@@ -1,16 +1,17 @@
 import os
 import time
-from fastapi import APIRouter, UploadFile, HTTPException
+from fastapi import APIRouter, UploadFile, HTTPException, Request
 from app.services.chunk_service import chunk_text_from_json
 from app.services.docx_service import extract_docx_content
 from app.services.pdf_service import extract_pdf_content
 from app.utils.json_utils import load_json
 from app.utils.file_utils import save_file
+from app.api.ApiResponse import ApiResponse
 
 router = APIRouter(prefix="/document", tags=["document"])
 
 @router.post("/upload")
-async def upload_document(file: UploadFile, max_words: int = 450):
+async def upload_document(request: Request, file: UploadFile, max_words: int = 450):
     """
     Upload a PDF or DOCX, extract content, chunk text, and return chunks + images.
     """
@@ -35,12 +36,14 @@ async def upload_document(file: UploadFile, max_words: int = 450):
         chunks = chunk_text_from_json(output_json_path, max_words=max_words)
         time.sleep(0.9)
 
-        return {
+        response_data = {
             "file_name": file_name,
             "file_extension": file_ext,
             "chunks": chunks["chunks"],
             "images": chunks["images"]
         }
+
+        return ApiResponse("success", f"{file_ext.upper()} processed successfully", response_data, request)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing file: {str(e)}")
