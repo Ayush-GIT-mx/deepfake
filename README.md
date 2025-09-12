@@ -1,4 +1,4 @@
-# ***Welocme to DeepFake Documentation And Installation Guide***
+# ***Welocme to DeepFake Documentation And Installation Guide .***
 
 ### **Deepfake is an Advance AI Generated text and Image detection Project To detect the AI Generated / plagiarism contents in a pdf or Docx document**
 
@@ -12,7 +12,7 @@
 
 
 ### 1 . Clone The Repository
-### Open 
+### Open Terminal / Powershell / CMD and Paste this Link
  ``` git
 git clone <Link>
 ```
