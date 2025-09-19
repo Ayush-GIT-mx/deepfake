@@ -1,0 +1,20 @@
+// Prisma Client generator
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Datasource configuration
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") // Make sure DATABASE_URL is in your .env
+}
+
+// User model
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique        // Unique email for login/signup
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

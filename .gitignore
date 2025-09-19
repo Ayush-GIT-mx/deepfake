@@ -63,3 +63,8 @@ output/
 *.sqlite3
 *.db
 *.pid
+
+# Prisma
+/prisma/migrations/*/steps.json
+/prisma/migrations/*/schema.prisma
+/prisma/migrations/*/README.md
