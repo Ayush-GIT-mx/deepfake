@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import document_routes, image_routes, json_routes
+from app.routes import analyze_routes, document_routes, image_routes, json_routes
 
 app = FastAPI(title="AI Service Backend")
 
@@ -7,3 +7,4 @@ app = FastAPI(title="AI Service Backend")
 app.include_router(document_routes.router)
 app.include_router(json_routes.router)
 app.include_router(image_routes.router)
+app.include_router(analyze_routes.router)

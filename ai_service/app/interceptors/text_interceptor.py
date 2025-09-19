@@ -280,7 +280,6 @@ def analyze_text(text: str):
         verdict = 'Uncertain / Mixed (weak AI signals)'
 
     result = {
-        'verdict': verdict,
         'ai_like_score': round(ai_like_score, 3),
         'model_likelihoods': normalized,
         'metrics': metrics,
