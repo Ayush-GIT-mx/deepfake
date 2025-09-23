@@ -29,13 +29,14 @@ def analyze_file(request: Request, filename: str = Query(..., description="Base 
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail=f"File '{filename}' not found in {OUTPUT_DIR}/")
 
+    # Load JSON file
     try:
         with open(file_path, "rb") as f:
             data = orjson.loads(f.read())
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading {filename}: {str(e)}")
 
-    # --- Automatically chunk if missing ---
+    # Automatically chunk if missing
     if "chunks" not in data:
         try:
             data = chunk_text_from_json(file_path)
@@ -45,17 +46,19 @@ def analyze_file(request: Request, filename: str = Query(..., description="Base 
     results = []
 
     for idx, chunk in enumerate(data["chunks"]):
-        # Include the actual chunk text
+        # Use the key from chunk_text_from_json ("chunk")
+        chunk_text = chunk.get("chunk", "")
+
         chunk_result = {
             "chunk_index": idx,
-            "chunk_text": chunk.get("chunk", ""),
+            "chunk_text": chunk_text,
             "text_analysis": None,
             "image_analysis": []
         }
 
         # --- Text analysis ---
-        if chunk_result["chunk_text"].strip():
-            chunk_result["text_analysis"] = analyze_text(chunk_result["chunk_text"])
+        if chunk_text.strip():
+            chunk_result["text_analysis"] = analyze_text(chunk_text)
 
         # --- Image analysis ---
         images = chunk.get("images", [])
@@ -81,9 +84,21 @@ def analyze_file(request: Request, filename: str = Query(..., description="Base 
 
         results.append(chunk_result)
 
+    # # Store first chunk for cloud processing will be used in future.
+    # text_to_cloud = " ".join([
+    #     chunk.get("chunk", "")
+    #     for idx, chunk in enumerate(data.get("chunks", []))
+    #     if idx < 1
+    # ])
+
+    
+
     return JSONResponse(ApiResponse(
         status="success",
         message=f"Analysis completed for {filename}",
-        data={"filename": filename, "results": results},
+        data={
+            "filename": filename,
+            "results": results,
+        },
         request=request
     ))

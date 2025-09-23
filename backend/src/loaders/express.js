@@ -1,13 +1,13 @@
-const express = require('express'); // ✅ missing
-const helmet = require('helmet');
-const cors = require('cors');
-const morgan = require('morgan');
-const authRoutes = require('../routes/auth.routes');
-const errorHandler = require('../middleware/errorHandler');
+import { json, urlencoded } from 'express'; // ✅ missing
+import helmet from 'helmet';
+import cors from 'cors';
+import morgan from 'morgan';
+import authRoutes from '../routes/AuthRoutes.js';
+import errorHandler from '../middleware/errorHandler.js';
 
 function loadExpress(app) {
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+  app.use(json());
+  app.use(urlencoded({ extended: true }));
   app.use(helmet());
   app.use(cors());
   app.use(morgan('dev'));
@@ -16,10 +16,12 @@ function loadExpress(app) {
   app.use('/api/v1/auth', authRoutes);
 
   // Health check
-  app.get('/health', (req, res) => res.status(200).json({ success: true, message: "Healthy" }));
+  app.get('/health', (req, res) =>
+    res.status(200).json({ success: true, message: 'Healthy' }),
+  );
 
   // Error handler (last middleware)
   app.use(errorHandler);
 }
 
-module.exports = loadExpress;
+export default loadExpress;

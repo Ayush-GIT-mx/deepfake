@@ -1,6 +1,6 @@
-require('dotenv').config();
-const express = require('express');
-const loadExpress = require('./loaders/express');
+import 'dotenv/config'; // ✅ loads .env automatically
+import express from 'express';
+import loadExpress from './loaders/express.js';
 
 function createApp() {
   const app = express();
@@ -8,4 +8,4 @@ function createApp() {
   return app;
 }
 
-module.exports = createApp;
+export default createApp;

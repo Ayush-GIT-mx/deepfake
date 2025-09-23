@@ -1,11 +1,11 @@
-const prisma = require('../config/db');
+import prisma from '../config/db.js';
 
 async function connectDb() {
   try {
     await prisma.$connect();
-    console.log("Database Connected");
+    console.log('Database Connected');
   } catch (error) {
-    console.error("Prisma Connection Error", error);
+    console.error('Prisma Connection Error', error);
     throw error;
   }
 }
@@ -13,7 +13,7 @@ async function connectDb() {
 const shutdown = async () => {
   try {
     await prisma.$disconnect();
-    console.log("Database Disconnected");
+    console.log('Database Disconnected');
     process.exit(0);
   } catch (error) {
     process.exit(1);
@@ -23,4 +23,4 @@ const shutdown = async () => {
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
 
-module.exports = connectDb;
+export default connectDb;
