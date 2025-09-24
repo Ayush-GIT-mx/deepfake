@@ -20,7 +20,6 @@ model User {
 
   // Relations
   documents Document[]
-  uploads   Upload?
   profile   Profile?
 }
 
@@ -32,15 +31,6 @@ model Document {
 
   // Foreign key
   userId Int
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Upload {
-  id            Int @id @default(autoincrement())
-  uploadCounter Int @default(0)
-
-  // Foreign key
-  userId Int  @unique
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

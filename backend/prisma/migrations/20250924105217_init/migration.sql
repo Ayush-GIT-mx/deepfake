@@ -23,16 +23,6 @@ CREATE TABLE `Document` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Upload` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `uploadCounter` INTEGER NOT NULL DEFAULT 0,
-    `userId` INTEGER NOT NULL,
-
-    UNIQUE INDEX `Upload_userId_key`(`userId`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
 CREATE TABLE `Profile` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `image` LONGBLOB NOT NULL,
@@ -45,9 +35,6 @@ CREATE TABLE `Profile` (
 
 -- AddForeignKey
 ALTER TABLE `Document` ADD CONSTRAINT `Document_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Upload` ADD CONSTRAINT `Upload_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Profile` ADD CONSTRAINT `Profile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

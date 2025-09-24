@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import errorHandler from '../middleware/errorHandler.js';
 import AuthRoutes from '../routes/AuthRoutes.js';
 import profileRoutes from '../routes/ProfileRoutes.js';
+import documentRoutes from '../routes/DocumentRoutes.js';
 
 function loadExpress(app) {
   app.use(json());
@@ -16,6 +17,7 @@ function loadExpress(app) {
   // API versioning
   app.use('/api/v1/auth', AuthRoutes);
   app.use(`/api/v1/user`, profileRoutes);
+  app.use(`/api/v1/document`, documentRoutes);
 
   // Health check
   app.get('/health', (req, res) =>

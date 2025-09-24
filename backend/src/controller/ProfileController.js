@@ -17,7 +17,6 @@ class ProfileController {
       return res.status(200).json({
         success: true,
         message: 'Image uploaded successfully',
-        data: profile,
       });
     } catch (error) {
       res.status(500).json({
@@ -35,7 +34,7 @@ class ProfileController {
       if (!profile || !profile.image) {
         return res.status(404).json({ error: 'Image not found' });
       }
-    //   TODO: Set the correct content type
+      //   TODO: Set the correct content type
       res.set('Content-Type', 'image/jpeg'); // or detect mime type dynamically
       res.send(profile.image);
     } catch (error) {
