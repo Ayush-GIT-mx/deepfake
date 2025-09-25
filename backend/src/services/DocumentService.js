@@ -35,6 +35,24 @@ class DocumentService {
 
     return document;
   }
+
+  static async getAllDocumentsByUserId(userId) {
+    const docs = await prisma.document.findMany({
+      where: {
+        userId: parseInt(userId, 10),
+      },
+    });
+    return docs;
+  }
+
+  static async getDocumentById(id) {
+    const doc = await prisma.document.findUnique({
+      where: {
+        id: parseInt(id, 10),
+      },
+    });
+    return doc;
+  }
 }
 
 export default DocumentService;
