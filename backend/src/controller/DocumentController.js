@@ -70,6 +70,27 @@ class DocumentController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  static async DeleteDocumentById(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        return res.json({
+          success: false,
+          message: 'id is required',
+        });
+      }
+      const document = await DocumentService.DeleteDocumentById(id);
+      res.json({
+        success: true,
+        message: 'Document deleted successfully',
+        data: document,
+      });
+    } catch (error) {
+      console.error('Get Document Error:', error.message);
+      return res.status(500).json({ error: error.message });
+    }
+  }
 }
 
 export default DocumentController;

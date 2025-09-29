@@ -12,6 +12,7 @@ router.post(
 );
 router.get('/:userId', authJwt, DocumentController.getDocumentsByUserId);
 router.get('/doc/:id', authJwt, DocumentController.getDocumentById);
+router.delete('/doc/:id', authJwt, DocumentController.DeleteDocumentById);
 
 const documentRoutes = router;
 export default documentRoutes;

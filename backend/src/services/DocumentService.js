@@ -53,6 +53,15 @@ class DocumentService {
     });
     return doc;
   }
+
+  static async DeleteDocumentById(id) {
+    const doc = prisma.document.delete({
+      where: {
+        id: parseInt(id, 10),
+      },
+    });
+    return doc;
+  }
 }
 
 export default DocumentService;
