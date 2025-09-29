@@ -7,7 +7,7 @@ from app.api.ApiResponse import ApiResponse
 OUTPUT_DIR = "output"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-router = APIRouter()
+router = APIRouter( tags=["load json"])
 
 @router.get("/get_files")
 def get_json_files(request: Request, file_name: str | None = Query(default=None, description="Optional filename (with or without .json)")):
