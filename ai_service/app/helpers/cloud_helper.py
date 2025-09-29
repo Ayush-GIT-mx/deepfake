@@ -24,8 +24,8 @@ def cloud_init(data: str) -> dict:
     )
 
     if 200 <= response.status_code < 300:
-        data = response.json()
-        score = data.get("score", 0)  # Sapling score between 0-1
+        res = response.json()
+        score = res.get("score", 0)  # Sapling score between 0-1
         ai_confidence = round(score * 100, 2)  # convert to percentage
         verdict = f"The given document is/has AI-generated content. The AI confidence is {ai_confidence}%."
         return {"ai_confidence": ai_confidence, "verdict": verdict}
