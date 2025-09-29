@@ -10,7 +10,7 @@ CLOUD_KEY = os.getenv("CLOUD_KEY")
 CLOUD_URL = os.getenv("AI_CLOUD_URL")
 
 
-def cloud_init(text: str) -> dict:
+def cloud_init(data: str) -> dict:
     
     if not CLOUD_KEY or not CLOUD_URL:
         raise ValueError("CLOUD_KEY or CLOUD_URL is not set in environment variables.")
@@ -19,7 +19,7 @@ def cloud_init(text: str) -> dict:
         CLOUD_URL,
         json={
             "key": CLOUD_KEY,
-            "text": text
+            "text": data
         }
     )
 
