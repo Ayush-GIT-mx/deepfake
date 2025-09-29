@@ -4,6 +4,7 @@ from fastapi import APIRouter, Query, Request, HTTPException
 from fastapi.responses import JSONResponse
 
 from app.api.ApiResponse import ApiResponse
+from app.helpers.cloud_helper import detect_text
 from app.services.chunk_service import chunk_text_from_json
 from app.interceptors.text_interceptor import analyze_text
 from app.interceptors.Image_interceptor import image_inspector
@@ -84,12 +85,10 @@ def analyze_file(request: Request, filename: str = Query(..., description="Base 
 
         results.append(chunk_result)
 
-    # # Store first chunk for cloud processing will be used in future.
-    # text_to_cloud = " ".join([
-    #     chunk.get("chunk", "")
-    #     for idx, chunk in enumerate(data.get("chunks", []))
-    #     if idx < 1
-    # ])
+    text_to_cloud = " ".join([ chunk.get("chunk", "") for idx, chunk in enumerate(data.get("chunks", [])) if idx < 1 ])
+
+
+    final_ai_verdict = detect_text(text_to_cloud)
 
     
 
@@ -99,6 +98,7 @@ def analyze_file(request: Request, filename: str = Query(..., description="Base 
         data={
             "filename": filename,
             "results": results,
+            "Verdict" : final_ai_verdict
         },
         request=request
     ))

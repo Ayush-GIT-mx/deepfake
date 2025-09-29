@@ -42,6 +42,8 @@ async def upload_document(request: Request, file: UploadFile, userId: str, usern
         chunks = chunk_text_from_json(output_json_path, max_words=max_words)
         time.sleep(0.9)
 
+        
+
         # Prepare response
         response_data = {
             "file_name": new_filename,
